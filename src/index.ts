@@ -2,12 +2,15 @@ import { Hono } from 'hono';
 import { ZodError } from 'zod';
 import figlet = require('figlet');
 import { HTTPException } from 'hono/http-exception';
+import { convertController } from './controller/convert-controller';
 
 const app = new Hono();
 
 app.get('/', (c) => {
     return c.text(figlet.textSync('Img2Text!'));
 });
+
+app.route('/', convertController);
 
 app.onError(async (err, c) => {
     if (err instanceof HTTPException) {
